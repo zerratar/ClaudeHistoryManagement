@@ -1,0 +1,57 @@
+{
+  "name": "claude-history-manager",
+  "productName": "Claude History Manager",
+  "version": "0.1.0",
+  "description": "Browse, inspect and safely edit local Claude Code conversations",
+  "main": "dist/main/main.js",
+  "private": true,
+  "scripts": {
+    "build:main": "node scripts/build-main.mjs",
+    "build:renderer": "vite build",
+    "build": "npm run build:main && npm run build:renderer",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "start": "npm run build && electron .",
+    "dist": "npm run build && electron-builder --win portable",
+    "selftest": "esbuild scripts/selftest.ts --bundle --platform=node --format=cjs --external:electron --outfile=dist/selftest.js --log-level=warning && electron dist/selftest.js"
+  },
+  "build": {
+    "appId": "com.local.claude-history-manager",
+    "files": [
+      "dist/main/**/*",
+      "dist/renderer/**/*",
+      "package.json"
+    ],
+    "win": {
+      "target": "portable",
+      "signAndEditExecutable": false
+    },
+    "directories": {
+      "output": "release"
+    }
+  },
+  "dependencies": {
+    "@codemirror/lang-json": "^6.0.1",
+    "@codemirror/lang-markdown": "^6.3.1",
+    "@codemirror/view": "^6.35.0",
+    "@uiw/react-codemirror": "^4.23.7",
+    "adm-zip": "^0.5.16",
+    "lucide-react": "^0.468.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-markdown": "^9.0.1",
+    "react-virtuoso": "^4.12.3",
+    "remark-gfm": "^4.0.0"
+  },
+  "devDependencies": {
+    "@types/adm-zip": "^0.5.7",
+    "@types/node": "^22.10.1",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^4.3.4",
+    "electron": "^33.2.1",
+    "electron-builder": "^25.1.8",
+    "esbuild": "^0.24.0",
+    "typescript": "^5.7.2",
+    "vite": "^5.4.11"
+  }
+}
